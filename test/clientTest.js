@@ -41,5 +41,4 @@ describe('Client Insertion in DB', function () {
        await Client.destroy({where:{dni:42222219 }})
     });
 
-
 });
