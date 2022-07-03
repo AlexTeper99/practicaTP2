@@ -7,6 +7,8 @@ const { Client, Account } = require('../src/db/models');
 
 
 describe('Client Insertion in DB', function () {
+
+
     before('Setting up Database - Insert Client', async () => {
         await axios({
             method: 'post',
@@ -26,12 +28,18 @@ describe('Client Insertion in DB', function () {
         //let getClient = await axios.get('http://localhost:5555/clients/' + 42222219);
         let getClient = Client.findOne({where: {dni: 42222219}}).then(async function(){
         let getAccount = Account.findOne({where: {clientId: getClient.id }})
-
             //assert.equal(account.id, getClient.id);
             assert.equal(getAccount.clientId, getClient.id);
             done();
         })
-
-
     });
+
+
+    after('Delete client', async function() {
+        let getClient = await Client.findOne({where: {dni: 42222219}})
+        await Account.destroy({where:{clientId:getClient.id}})
+       await Client.destroy({where:{dni:42222219 }})
+    });
+
+
 });
