@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Account.belongsTo(models.Client)
+      Account.hasMany(models.Movement)
     }
   }
   Account.init({
