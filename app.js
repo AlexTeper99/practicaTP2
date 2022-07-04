@@ -77,7 +77,6 @@ app.get('/clients/:accountid', async function(req, res) {
     } catch (error) {
         return res.status(400).json(error.error);
     }
-
 });
 
 
