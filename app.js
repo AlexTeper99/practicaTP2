@@ -12,7 +12,7 @@ const { randNumber } = require('@ngneat/falso')
 //Definir el puerto de escucha
 app.listen(process.env.PORT)
 
-const { Client, Account } = require('./src/db/models');
+const { Client, Account, Movement } = require('./src/db/models');
 
 app.get('/hola', async function(req, res){
     return res.status(201).send('hola')
@@ -58,8 +58,27 @@ app.post('/clients', async function(req, res){
 })
 
 
+//-------------------------------issue-2--------------------------------------------
+app.get('/clients/:accountid', async function(req, res) {
+    try {
+        let accountid = req.params.accountid;
+        let account = await Account.findByPk(accountid);
+      //  console.log(client)
+
+        if(account){
+            let movements = await Movement.findAll({where:{accountId: accountid}})
+            let result = movements.slice(0,10)
+            return res.status(200).json(result);
+        }else{
+            res.status(201).send('No existe un account con ese id')
+        }
 
 
+    } catch (error) {
+        return res.status(400).json(error.error);
+    }
+
+});
 
 
 
